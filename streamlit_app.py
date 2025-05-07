@@ -39,7 +39,7 @@ if uploaded_file is not None:
         else:
             df[col] = df[col].fillna(df[col].mean())
             
-    st.write(df.isnull().sum())
+    st.write(df.duplicated().sum())
 
   # Label encoding for EDA
     le = LabelEncoder()
