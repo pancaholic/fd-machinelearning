@@ -54,11 +54,22 @@ if uploaded_file is not None:
 
     # --- EDA Section ---
     st.subheader("📊 EDA - Correlation Matrix")
-    fig, ax = plt.subplots(figsize=(12, 12))
-    sns.heatmap(df_eda.corr(), annot=True, ax=ax)
-    st.pyplot(fig)
+    # fig, ax = plt.subplots(figsize=(12, 12))
+    # sns.heatmap(df_eda.corr(), annot=True, ax=ax)
+    # st.pyplot(fig)
 
-    st.subheader("📊 Fraudulent Distribution")
+    # st.subheader("📊 Fraudulent Distribution")
+    # fig, ax = plt.subplots()
+    # sns.countplot(data=df, x='Fraudulent', palette={0: 'blue', 1: 'red'}, ax=ax)
+    # st.pyplot(fig)
+
+    # Optional debug
+    st.write("Unique values in 'Fraudulent':", df['Fraudulent'].unique())
+    
+    # Convert to int if necessary
+    df['Fraudulent'] = df['Fraudulent'].astype(int)
+    
+    # Create and show the plot
     fig, ax = plt.subplots()
     sns.countplot(data=df, x='Fraudulent', palette={0: 'blue', 1: 'red'}, ax=ax)
     st.pyplot(fig)
