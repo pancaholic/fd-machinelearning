@@ -45,8 +45,7 @@ if uploaded_file is not None:
     df_train = df.copy()
     cat_cols = ['Transaction_Type', 'Device_Used', 'Location', 'Payment_Method']
     for col in cat_cols:
-        if col in df_eda.columns:
-            df_eda[col] = le.fit_transform(df_eda[col])
+        df_eda[col] = le.fit_transform(df_eda[col])
 
     # --- EDA Section ---
     st.subheader("📊 EDA - Correlation Matrix")
