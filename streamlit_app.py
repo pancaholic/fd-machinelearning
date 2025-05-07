@@ -30,9 +30,6 @@ if uploaded_file is not None:
     st.write(df)
 
     # --- Data Preprocessing ---
-    df.drop_duplicates(inplace=True)
-    df.drop(['Transaction_ID'], axis=1, inplace=True, errors='ignore')
-
     for col in df.columns:
         if df[col].dtype == 'object':
             df[col] = df[col].fillna('Unknown')
@@ -41,11 +38,17 @@ if uploaded_file is not None:
             
     st.write(df.duplicated().sum())
 
+    df.drop_duplicates(inplace=True)
+    df.drop(['Transaction_ID'], axis=1, inplace=True, errors='ignore')
+
   # Label encoding for EDA
     le = LabelEncoder()
+    
     df_eda = df.copy()
     df_train = df.copy()
+    
     cat_cols = ['Transaction_Type', 'Device_Used', 'Location', 'Payment_Method']
+    
     for col in cat_cols:
         df_eda[col] = le.fit_transform(df_eda[col])
 
