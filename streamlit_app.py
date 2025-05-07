@@ -27,13 +27,11 @@ if uploaded_file is not None:
     df = pd.read_csv(uploaded_file)
 
     st.subheader("📄 Raw Dataset")
-    st.write(df.head())
+    st.write(df)
 
     # --- Data Preprocessing ---
     df.drop_duplicates(inplace=True)
     df.drop(['Transaction_ID'], axis=1, inplace=True, errors='ignore')
-
-    df.duplicated().sum()
 
     for col in df.columns:
         if df[col].dtype == 'object':
