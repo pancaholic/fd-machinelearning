@@ -54,16 +54,14 @@ if uploaded_file is not None:
 
     # --- EDA Section ---
     st.subheader("📊 EDA - Correlation Matrix")
-
-    st.write(df['Fraudulent'].dtype)
-
+    
     fig, ax = plt.subplots(figsize=(12, 12))
     sns.heatmap(df_eda.corr(), annot=True, ax=ax)
     st.pyplot(fig)
 
     st.subheader("📊 Fraudulent Distribution")
     fig, ax = plt.subplots()
-    sns.countplot(data=df, x='Fraudulent', palette={0: 'blue', 1: 'red'}, ax=ax)
+    sns.countplot(data=df_eda, x='Fraudulent', palette={0: 'blue', 1: 'red'}, ax=ax)
     st.pyplot(fig)
 
     # --- Model Training ---
