@@ -31,9 +31,9 @@ if uploaded_file is not None:
 
     # --- Data Preprocessing ---
     df.drop_duplicates(inplace=True)
-    df.duplicated().sum()
-    
     df.drop(['Transaction_ID'], axis=1, inplace=True, errors='ignore')
+
+    df
 
     for col in df.columns:
         if df[col].dtype == 'object':
@@ -61,59 +61,59 @@ if uploaded_file is not None:
     # st.pyplot(fig)
 
     # --- Model Training ---
-    st.subheader("⚙️ Model Comparison")
+    # st.subheader("⚙️ Model Comparison")
 
-    # One-hot encoding for training
-    df_train = pd.get_dummies(df_train, columns=cat_cols)
-    X = df_train.drop(['Fraudulent'], axis=1)
-    y = df_train['Fraudulent']
+    # # One-hot encoding for training
+    # df_train = pd.get_dummies(df_train, columns=cat_cols)
+    # X = df_train.drop(['Fraudulent'], axis=1)
+    # y = df_train['Fraudulent']
 
-    smote = SMOTE(random_state=42)
-    X_res, y_res = smote.fit_resample(X, y)
+    # smote = SMOTE(random_state=42)
+    # X_res, y_res = smote.fit_resample(X, y)
 
-    X_train, X_test, y_train, y_test = train_test_split(X_res, y_res, test_size=0.2, stratify=y_res, random_state=42)
+    # X_train, X_test, y_train, y_test = train_test_split(X_res, y_res, test_size=0.2, stratify=y_res, random_state=42)
 
-    scaler = StandardScaler()
-    X_train_scaled = scaler.fit_transform(X_train)
-    X_test_scaled = scaler.transform(X_test)
+    # scaler = StandardScaler()
+    # X_train_scaled = scaler.fit_transform(X_train)
+    # X_test_scaled = scaler.transform(X_test)
 
-    models = {
-       # "Random Forest": RandomForestClassifier(n_estimators=100, random_state=42),
-       #  "XGBoost": XGBClassifier(eval_metric='logloss', use_label_encoder=False),
-       #  "CatBoost": CatBoostClassifier(verbose=0),
-       #  "LightGBM": LGBMClassifier(),
-       #  "Logistic Regression": LogisticRegression(max_iter=500)
-        "Random Forest": RandomForestClassifier(n_estimators=200, max_depth=10, min_samples_split=5, class_weight="balanced_subsample", random_state=42),
-        "XGBoost": XGBClassifier(n_estimators=500, learning_rate=0.03, max_depth=7, scale_pos_weight=5, subsample=0.8, colsample_bytree=0.8, eval_metric="logloss", use_label_encoder=False),
-        "CatBoost": CatBoostClassifier(iterations=500, learning_rate=0.03, depth=7, l2_leaf_reg=5, scale_pos_weight=5, verbose=0),
-        "LightGBM": LGBMClassifier(n_estimators=500, learning_rate=0.03, max_depth=7, num_leaves=60, min_data_in_leaf=5, force_col_wise=True, scale_pos_weight=5, verbose=-1),
-        "Logistic Regression": LogisticRegression(C=1.0, solver="liblinear", max_iter=500, class_weight="balanced"),
-    }
+    # models = {
+    #    # "Random Forest": RandomForestClassifier(n_estimators=100, random_state=42),
+    #    #  "XGBoost": XGBClassifier(eval_metric='logloss', use_label_encoder=False),
+    #    #  "CatBoost": CatBoostClassifier(verbose=0),
+    #    #  "LightGBM": LGBMClassifier(),
+    #    #  "Logistic Regression": LogisticRegression(max_iter=500)
+    #     "Random Forest": RandomForestClassifier(n_estimators=200, max_depth=10, min_samples_split=5, class_weight="balanced_subsample", random_state=42),
+    #     "XGBoost": XGBClassifier(n_estimators=500, learning_rate=0.03, max_depth=7, scale_pos_weight=5, subsample=0.8, colsample_bytree=0.8, eval_metric="logloss", use_label_encoder=False),
+    #     "CatBoost": CatBoostClassifier(iterations=500, learning_rate=0.03, depth=7, l2_leaf_reg=5, scale_pos_weight=5, verbose=0),
+    #     "LightGBM": LGBMClassifier(n_estimators=500, learning_rate=0.03, max_depth=7, num_leaves=60, min_data_in_leaf=5, force_col_wise=True, scale_pos_weight=5, verbose=-1),
+    #     "Logistic Regression": LogisticRegression(C=1.0, solver="liblinear", max_iter=500, class_weight="balanced"),
+    # }
 
-    results = []
-    for name, model in models.items():
-        model.fit(X_train_scaled, y_train)
-        y_pred = model.predict(X_test_scaled)
+    # results = []
+    # for name, model in models.items():
+    #     model.fit(X_train_scaled, y_train)
+    #     y_pred = model.predict(X_test_scaled)
 
-        accuracy = accuracy_score(y_test, y_pred)
-        f1 = f1_score(y_test, y_pred, average='weighted')
-        roc_auc = roc_auc_score(y_test, y_pred)
+    #     accuracy = accuracy_score(y_test, y_pred)
+    #     f1 = f1_score(y_test, y_pred, average='weighted')
+    #     roc_auc = roc_auc_score(y_test, y_pred)
 
-        results.append({
-            "Model": name,
-            "Accuracy": accuracy,
-            "F1 Score": f1,
-            "ROC AUC": roc_auc
-        })
+    #     results.append({
+    #         "Model": name,
+    #         "Accuracy": accuracy,
+    #         "F1 Score": f1,
+    #         "ROC AUC": roc_auc
+    #     })
 
-        st.markdown(f"#### Confusion Matrix - {name}")
-        cm = confusion_matrix(y_test, y_pred)
-        fig, ax = plt.subplots()
-        sns.heatmap(cm, annot=True, fmt='d', cmap="Blues", ax=ax)
-        st.pyplot(fig)
+    #     st.markdown(f"#### Confusion Matrix - {name}")
+    #     cm = confusion_matrix(y_test, y_pred)
+    #     fig, ax = plt.subplots()
+    #     sns.heatmap(cm, annot=True, fmt='d', cmap="Blues", ax=ax)
+    #     st.pyplot(fig)
 
-    st.subheader("📈 Results Summary")
-    results_df = pd.DataFrame(results).sort_values(by="F1 Score", ascending=False)
-    st.dataframe(results_df.reset_index(drop=True))
+    # st.subheader("📈 Results Summary")
+    # results_df = pd.DataFrame(results).sort_values(by="F1 Score", ascending=False)
+    # st.dataframe(results_df.reset_index(drop=True))
 
 
