@@ -76,11 +76,11 @@ if uploaded_file is not None:
     X_test_scaled = scaler.transform(X_test)
 
     models = {
-        "Random Forest": RandomForestClassifier(n_estimators=200, max_depth=10, min_samples_split=5, class_weight="balanced_subsample", random_state=42),
-        "XGBoost": XGBClassifier(n_estimators=500, learning_rate=0.03, max_depth=7, scale_pos_weight=5, subsample=0.8, colsample_bytree=0.8, eval_metric="logloss", use_label_encoder=False),
-        "CatBoost": CatBoostClassifier(iterations=500, learning_rate=0.03, depth=7, l2_leaf_reg=5, scale_pos_weight=5, verbose=0),
-        "LightGBM": LGBMClassifier(n_estimators=500, learning_rate=0.03, max_depth=7, num_leaves=60, min_data_in_leaf=5, force_col_wise=True, scale_pos_weight=5, verbose=-1),
-        "Logistic Regression": LogisticRegression(C=1.0, solver="liblinear", max_iter=500, class_weight="balanced"),
+       "Random Forest": RandomForestClassifier(n_estimators=100, random_state=42),
+        "XGBoost": XGBClassifier(eval_metric='logloss', use_label_encoder=False),
+        "CatBoost": CatBoostClassifier(verbose=0),
+        "LightGBM": LGBMClassifier(),
+        "Logistic Regression": LogisticRegression(max_iter=500)
     }
 
     results = []
