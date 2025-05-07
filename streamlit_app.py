@@ -61,7 +61,7 @@ if uploaded_file is not None:
 
     st.subheader("📊 Fraudulent Distribution")
     fig, ax = plt.subplots()
-    sns.countplot(data=df_eda, x='Fraudulent', palette={0: 'blue', 1: 'red'}, ax=ax)
+    sns.countplot(data=df, hue=None, x='Fraudulent', palette={0: 'blue', 1: 'red'}, ax=ax)
     st.pyplot(fig)
 
     # --- Model Training ---
