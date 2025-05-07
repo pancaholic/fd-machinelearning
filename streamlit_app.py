@@ -63,7 +63,7 @@ if uploaded_file is not None:
     sns.countplot(data=df, x='Fraudulent', palette={0: 'blue', 1: 'red'}, ax=ax)
     st.pyplot(fig)
 
-    --- Model Training ---
+    # --- Model Training ---
     st.subheader("⚙️ Model Comparison")
 
     # One-hot encoding for training
