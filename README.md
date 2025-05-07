@@ -1,13 +1,10 @@
-# 📦 Streamlit App Starter Kit 
-```
-⬆️ (Replace above with your app's name)
-```
+# 💵 Fraud Detection App
 
-Description of the app ...
+For a Comparative Study to know which fraud detection model will be the best for the dataset
 
 ## Demo App
 
-[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://app-starter-kit.streamlit.app/)
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://rs-frauddetection.streamlit.app/)
 
 ## GitHub Codespaces
 
