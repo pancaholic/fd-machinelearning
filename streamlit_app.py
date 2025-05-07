@@ -50,7 +50,7 @@ if uploaded_file is not None:
     # --- EDA Section ---
     st.subheader("📊 EDA - Correlation Matrix")
     fig, ax = plt.subplots(figsize=(10, 8))
-    snsheatmap(df_eda.corr(), annot=True, ax=ax)
+    sns.heatmap(df_eda.corr(), annot=True, ax=ax)
     st.pyplot(fig)
 
     st.subheader("📊 Fraudulent Distribution")
