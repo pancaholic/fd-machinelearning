@@ -42,6 +42,7 @@ if uploaded_file is not None:
   # Label encoding for EDA
     le = LabelEncoder()
     df_eda = df.copy()
+    df_train = df.copy()
     cat_cols = ['Transaction_Type', 'Device_Used', 'Location', 'Payment_Method']
     for col in cat_cols:
         if col in df_eda.columns:
@@ -49,8 +50,8 @@ if uploaded_file is not None:
 
     # --- EDA Section ---
     st.subheader("📊 EDA - Correlation Matrix")
-    fig, ax = plt.subplots(figsize=(10, 8))
-    sns.heatmap(df_eda.corr(), annot=True, ax=ax)
+    fig = plt.subplots(figsize=(12, 12))
+    sns.heatmap(df_eda.corr(), annot=True)
     st.pyplot(fig)
 
     # st.subheader("📊 Fraudulent Distribution")
@@ -62,7 +63,7 @@ if uploaded_file is not None:
     st.subheader("⚙️ Model Comparison")
 
     # One-hot encoding for training
-    df_train = pd.get_dummies(df, columns=cat_cols, drop_first=True)
+    df_train = pd.get_dummies(df_train, columns=cat_cols)
     X = df_train.drop(['Fraudulent'], axis=1)
     y = df_train['Fraudulent']
 
@@ -76,11 +77,16 @@ if uploaded_file is not None:
     X_test_scaled = scaler.transform(X_test)
 
     models = {
-       "Random Forest": RandomForestClassifier(n_estimators=100, random_state=42),
-        "XGBoost": XGBClassifier(eval_metric='logloss', use_label_encoder=False),
-        "CatBoost": CatBoostClassifier(verbose=0),
-        "LightGBM": LGBMClassifier(),
-        "Logistic Regression": LogisticRegression(max_iter=500)
+       # "Random Forest": RandomForestClassifier(n_estimators=100, random_state=42),
+       #  "XGBoost": XGBClassifier(eval_metric='logloss', use_label_encoder=False),
+       #  "CatBoost": CatBoostClassifier(verbose=0),
+       #  "LightGBM": LGBMClassifier(),
+       #  "Logistic Regression": LogisticRegression(max_iter=500)
+        "Random Forest": RandomForestClassifier(n_estimators=200, max_depth=10, min_samples_split=5, class_weight="balanced_subsample", random_state=42),
+        "XGBoost": XGBClassifier(n_estimators=500, learning_rate=0.03, max_depth=7, scale_pos_weight=5, subsample=0.8, colsample_bytree=0.8, eval_metric="logloss", use_label_encoder=False),
+        "CatBoost": CatBoostClassifier(iterations=500, learning_rate=0.03, depth=7, l2_leaf_reg=5, scale_pos_weight=5, verbose=0),
+        "LightGBM": LGBMClassifier(n_estimators=500, learning_rate=0.03, max_depth=7, num_leaves=60, min_data_in_leaf=5, force_col_wise=True, scale_pos_weight=5, verbose=-1),
+        "Logistic Regression": LogisticRegression(C=1.0, solver="liblinear", max_iter=500, class_weight="balanced"),
     }
 
     results = []
