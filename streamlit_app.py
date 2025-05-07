@@ -31,6 +31,8 @@ if uploaded_file is not None:
 
     # --- Data Preprocessing ---
     df.drop_duplicates(inplace=True)
+    df.duplicated().sum()
+    
     df.drop(['Transaction_ID'], axis=1, inplace=True, errors='ignore')
 
     for col in df.columns:
