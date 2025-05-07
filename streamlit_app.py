@@ -69,7 +69,7 @@ if uploaded_file is not None:
     smote = SMOTE(random_state=42)
     X_res, y_res = smote.fit_resample(X, y)
 
-    X_train, X_test, y_train, y_test = trai_test_split(X_res, y_res, test_size=0.2, stratify=y_res, random_state=42)
+    X_train, X_test, y_train, y_test = train_test_split(X_res, y_res, test_size=0.2, stratify=y_res, random_state=42)
 
     scaler = StandardScaler()
     X_train_scaled = scaler.fit_transform(X_train)
