@@ -53,10 +53,10 @@ if uploaded_file is not None:
     sns.heatmap(df_eda.corr(), annot=True, ax=ax)
     st.pyplot(fig)
 
-    st.subheader("📊 Fraudulent Distribution")
-    fig, ax = plt.subplots()
-    sns.countplot(data=df, x='Fraudulent', palette={0: 'blue', 1: 'red'}, ax=ax)
-    st.pyplot(fig)
+    # st.subheader("📊 Fraudulent Distribution")
+    # fig, ax = plt.subplots()
+    # sns.countplot(data=df, x='Fraudulent', palette={0: 'blue', 1: 'red'}, ax=ax)
+    # st.pyplot(fig)
 
     # --- Model Training ---
     st.subheader("⚙️ Model Comparison")
